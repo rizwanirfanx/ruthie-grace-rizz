@@ -1,0 +1,91 @@
+{% if settings.sweeps_switch %}
+{% liquid
+  assign p = product
+  assign accent1 = accent | default: '#E9A3B0'
+  assign accent2 = '#F6CCD4'
+  assign on_fg   = '#4A4A4A'
+
+  assign local_price_cents = price | default: p.price
+
+  assign base_price = p.metafields.sharedsweeps.priceoverride
+  if base_price == blank
+    assign base_price = local_price_cents | divided_by: 100.0
+  endif
+
+  assign global_mult  = shop.metafields.sharedsweeps.global_multiplier | default: 1
+  assign product_mult = p.metafields.sharedsweeps.multiplier
+  assign mult = global_mult
+  if product_mult != blank and product_mult > global_mult
+    assign mult = product_mult
+  endif
+
+  assign bonus = p.metafields.sharedsweeps.bonusEntries | default: 0
+
+  # --- Override 5X si tiene tag 'sale' o 'status_sale' ---
+  assign SALES_TAGS = 'sale,status_sale' | split: ','
+  assign is_sale_tag = false
+  if p.tags and p.tags != blank
+    # 'contains' sobre arrays compara por igualdad exacta
+    # normalizamos a minúsculas para evitar problemas de casing
+    assign tags_lower = p.tags | join: '||' | downcase | split: '||'
+    for t in tags_lower
+      assign t_stripped = t | strip
+      if SALES_TAGS contains t_stripped
+        assign is_sale_tag = true
+      endif
+    endfor
+  endif
+  if is_sale_tag
+    assign mult = 5
+  endif
+
+  # calcular entries con el multiplicador final
+  assign entries = base_price | times: mult | floor
+%}
+
+{% if base_price > 0 %}
+<div class="ss-rg-wrapper">
+  <span class="ss-rg-badge{% if details %} details{% endif %}"
+        style="--ss-accent1: {{ accent1 }}; --ss-accent2: {{ accent2 }}; --ss-fg: {{ on_fg }};">
+    <span class="ss-rg-text">
+      Earn <span class="ss-rg-value">{{ entries }}</span> Entries
+      {% if bonus > 0 %}<span class="ss-rg-bonus">+ {{ bonus }}</span>{% endif %}
+    </span>
+    <span class="ss-rg-mult" aria-label="{{ mult }}x multiplier">{{ mult }}X</span>
+  </span>
+</div>
+
+<style>
+  .ss-rg-wrapper{ text-align:center; margin:.5rem 0; }
+  .ss-rg-badge{
+    --_accent1: var(--ss-accent1, #E9A3B0);
+    --_accent2: var(--ss-accent2, #F6CCD4);
+    --_fg: var(--ss-fg, #4A4A4A);
+    display:inline-flex; align-items:center; justify-content:center;
+    gap:.6rem; padding:.5rem .8rem; border-radius:999px;
+    border:1.5px solid var(--_accent1); background:#fff; color:var(--_fg);
+    font:600 13px/1.2 Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+    box-shadow:0 1px 4px rgba(0,0,0,.05); max-width:100%;
+    transition:background .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .ss-rg-badge:hover{
+    background:linear-gradient(0deg, rgba(246,204,212,.20), rgba(246,204,212,.20)), #fff;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+  }
+  .ss-rg-text{ display:inline-flex; align-items:center; gap:.35rem; letter-spacing:.2px; white-space:nowrap; }
+  .ss-rg-value{ color:var(--_accent1); font-weight:800; }
+  .ss-rg-bonus{ color:#2e7d32; font-weight:700; margin-left:.15rem; }
+  .ss-rg-mult{
+    display:inline-flex; align-items:center; justify-content:center; min-width:34px;
+    padding:.28rem .55rem; font-weight:800; font-size:12px; line-height:1;
+    color:#fff; background:var(--_accent1); border:1px solid var(--_accent1); border-radius:999px;
+    box-shadow:0 1px 6px rgba(0,0,0,.08);
+  }
+  .ss-rg-badge.details{ margin-top:.25rem; }
+  @media (max-width:640px){
+    .ss-rg-badge{ padding:.45rem .7rem; font-size:12px; }
+    .ss-rg-mult{ min-width:30px; font-size:11px; padding:.25rem .5rem; }
+  }
+</style>
+{% endif %}
+{% endif %}

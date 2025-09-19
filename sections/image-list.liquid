@@ -1,0 +1,760 @@
+{%- liquid
+  if section.blocks.size > 0
+    assign first_block = section.blocks | first
+  endif
+
+  if section.settings.displayContent
+    assign ratio_factor = 2
+  else
+   assign ratio_factor = 1
+  endif
+    
+  assign classes = section.settings.style_class
+  %}
+
+{% style %}
+
+   #section-{{ section.id }} .c-image-list__nav-wrapper {
+   
+    flex-direction: column;
+    gap: 3rem;
+}
+{% unless section.settings.imageHeight == 'fill_screen' %}
+  
+  
+    #section-{{ section.id }} .c-image-list__media  {
+      {% if section.settings.imageHeight == 'adapt' %}
+       --image-ratio-percent: {{ 1 | divided_by: first_block.settings.image.aspect_ratio | times: 100 }}%;
+      {% elsif section.settings.imageHeight == 'square' %}
+         --image-ratio-percent: 100%;
+      {% elsif section.settings.imageHeight == 'portrait' %}
+         --image-ratio-percent: 133%;
+      {% else %}
+         --image-ratio-percent: 62.5%;
+      {% endif %}
+    
+        padding-bottom: calc( var(--image-ratio-percent) / {{ ratio_factor }} );
+        height: 100%; 
+      }
+
+
+  {% else %}
+    #section-{{ section.id }} .c-image-list__media  {
+       padding-bottom: 0;
+        height: 100vh; 
+    }
+
+  {%  endunless %}
+.c-image-list__media {
+  position:relative;
+}
+.c-image-list__media img {
+  display: block;
+    max-width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit:cover;
+}
+{% if section.settings.navHeadFont %}
+#section-{{ section.id }} .c-image-list__nav {
+font-family:var(--font-heading-family);
+}
+
+
+#section-{{ section.id }} .c-image-list__nav-wrapper  {
+display:flex;
+align-items:{{section.settings.nav_alignment_vertical}};
+justify-content:{{section.settings.nav_alignment_horizontal}};
+}
+
+
+{% endif %}
+
+{%- if section.settings.displayContent -%}
+@media screen and (min-width:749px) {
+#section-{{ section.id }} .c-image-list .c-image-list__media-item {
+display:flex;
+flex-direction:row;
+}
+
+#section-{{ section.id }} .c-image-list .c-image-list__media {
+min-width:50%;
+}
+
+}
+
+{%- endif -%}
+
+
+
+#section-{{ section.id }} .c-image-list__nav-wrapper {
+  min-width: {{section.settings.nav_width}}%;
+}
+
+#section-{{ section.id }} .c-image-list__media-wrapper {
+  flex:1;
+  
+}
+
+@media screen and (min-width:750px) {
+#section-{{ section.id }} .c-image-list__media-content {
+display:flex;
+flex-direction:column;
+justify-content:{{section.settings.content_alignment_vertical}};
+}
+
+}
+
+
+
+
+{{ section.settings.custom_css }}
+
+
+{% endstyle %}
+
+
+<div class="{% unless section.settings.fullWidth %}page-width{% endunless %} {{ classes }}" id="section-{{ section.id }}">
+  <div class="js-image-list c-image-list" data-activate-items-on-hover="{{section.settings.activateItemsOnHover}}" style="{% if section.settings.bgColor != blank %}background-color:{{ section.settings.bgColor }};{% endif %}">
+
+    <div class="c-image-list__nav-wrapper c-image-list__nav-wrapper--position-{{ section.settings.navLinksPosition }}">
+      <ul class="c-image-list__nav c-image-list__nav--alignment-{{ section.settings.navLinksAlignment }} {%- if section.settings.navLinksActiveBottomBorder -%}c-image-list__nav--active-border{%- endif -%}" style="{% if section.settings.navLinksPadding != blank %} padding:{{ section.settings.navLinksPadding }}vw;{% endif %}">
+        {% for block in section.blocks %}
+          <li style="{% if section.settings.navLinksActiveStateColor != blank %} color:{{ section.settings.navLinksActiveStateColor }};{% endif %}">
+            <a class="{% if forloop.index == 1 %}is-active{% endif %}" href="{{ block.settings.buttonLink }}" data-index="{{ forloop.index0 }}" style="padding-top: {{ section.settings.spaceBetweenNavigationLinks }}rem; padding-bottom: {{ section.settings.spaceBetweenNavigationLinks }}rem; {% if section.settings.navLinksColor != blank %} color:{{ section.settings.navLinksColor }};{% endif %}{% if section.settings.navLinksFontSize != blank %} font-size:clamp(2rem,{{ section.settings.navLinksFontSize }}vw,12rem);{% endif %}{% if section.settings.navLinksLineHeight != blank %} line-height:{{ section.settings.navLinksLineHeight }};{% endif %}">
+              <span>{{ block.settings.title }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <div class="section-button-container">
+                <a class="button  button--primary"{% if section.settings.buttonLink == blank %} role="link" aria-disabled="true"{% else %} href="{{ section.settings.buttonLink }}"{% endif %}>
+                  {% if section.settings.buttonLabel != blank %}
+                    {{ section.settings.buttonLabel | escape }}
+                  {% else %}
+                    {{ section.settings.buttonLabel | escape }}
+                  {% endif %}
+                </a>
+      </div>
+     
+    </div>
+
+    <div class="c-image-list__media-wrapper">
+
+    {% for block in section.blocks %}
+
+    <div class="c-image-list__media-item{% if forloop.index == 1 %} is-active{% endif %}" {{ block.shopify_attributes }}>
+
+         
+          {%- if block.settings.image != blank -%}
+            <div class="c-image-list__media">
+              {{ block.settings.image | image_url: width: 3840 | image_tag:
+                sizes: "(min-width: 750px) 50vw, 100vw",
+                widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+                class: 'c-image-list-image'
+            }}
+            </div>
+          {%- endif -%}
+      
+
+          <!-- Content Block -->
+          {%- if section.settings.displayContent -%}
+          <div class="c-image-list__media-content" style="{% if section.settings.textColor != blank %} color:{{ section.settings.textColor }};{% endif %}{% if section.settings.contentPadding %}padding: {{ section.settings.contentPadding }}rem;{% endif %}">
+            <h2 class="{{ block.settings.heading_size }}" style="{% if section.settings.titleColor != blank %} color:{{ section.settings.titleColor }};{% endif %}">{{ block.settings.title }}</h2>
+            {{ block.settings.text }}
+
+            {%- if section.settings.displayButton -%}
+              <div class="c-image-list__button-container">
+                <a class="button{% if section.settings.buttonStyleSecondary1 %} button--secondary{% else %} button--primary{% endif %}"{% if block.settings.buttonLink == blank %} role="link" aria-disabled="true"{% else %} href="{{ block.settings.buttonLink }}"{% endif %}>
+                  {% if block.settings.buttonLabel != blank %}
+                    {{ block.settings.buttonLabel | escape }}
+                  {% else %}
+                    {{ section.settings.buttonLabel | escape }}
+                  {% endif %}
+                </a>
+              </div>
+            {%- endif-%}
+
+          </div>
+          {%- endif-%}
+          <!-- end Content Block -->
+
+
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image List",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "fullWidth",
+      "label": "Make section full width",
+      "default": false
+    },
+
+    
+    {
+      "type": "checkbox",
+      "id": "activateItemsOnHover",
+      "default": true,
+      "label": "Activate Items On Hover"
+    },
+
+
+    {
+      "type": "select",
+      "id": "imageHeight",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to First Image"
+        },
+        {
+          "value": "fill_screen",
+          "label": "Fill Screen"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        },
+
+         {
+          "value": "landscape",
+          "label": "Landscape"
+        },
+
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        }
+      ],
+      "default": "square",
+      "label": "Image Height"
+    },
+    {
+      "type": "color",
+      "id": "navLinksColor",
+      "label": "Navigation Links Color"
+    },
+
+    {
+      "type": "range",
+      "id": "nav_width",
+      "min": 10,
+      "max": 100,
+      "default": 30,
+	  "step": 5,
+      "unit": "%",
+      "label": "Navigation Width"
+    },
+
+      {
+      "type": "checkbox",
+      "id": "navHeadFont",
+      "label": "Apply Heading fonts to navigation links",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "navLinksActiveStateColor",
+      "label": "Navigation Links Active State Color"
+    },
+    {
+      "type": "checkbox",
+      "id": "navLinksActiveBottomBorder",
+      "label": "Navigation Links Active Bottom Border",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "navLinksFontSize",
+      "min": 1,
+      "max": 15,
+      "default": 3,
+      "unit": "vw",
+      "label": "Navigation Links Font Size"
+    },
+    {
+      "type": "range",
+      "id": "navLinksLineHeight",
+      "min": 0,
+      "max": 3,
+      "step": 0.1,
+      "default": 1.4,
+      "label": "Navigation Links Line Height"
+    },
+    {
+      "type": "range",
+      "id": "spaceBetweenNavigationLinks",
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "default": 0,
+      "unit": "rem",
+      "label": "Space Between Navigation Links"
+    },
+    {
+      "type": "select",
+      "id": "navLinksPosition",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left",
+      "label": "Navigation Links Position"
+    },
+    {
+      "type": "range",
+      "id": "navLinksPadding",
+      "min": 0,
+      "max": 10,
+      "default": 0,
+      "unit": "vw",
+      "label": "Navigation Links Padding"
+    },
+
+    {
+      "type": "select",
+      "id": "navLinksAlignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Navigation Links Text Alignment"
+    },
+    {
+      "type": "select",
+      "id": "nav_alignment_horizontal",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Navigation Links Horizontal Alignment"
+    },
+
+       {
+          "type": "select",
+      "id": "nav_alignment_vertical",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center",
+      "label": "Navigation Links Vertical Alignment"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "displayContent",
+      "default": true,
+      "label": "Display Content"
+    },
+
+       {
+          "type": "select",
+      "id": "content_alignment_vertical",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Bottom"
+        },
+         {
+          "value": "stretch",
+          "label": "Stretch"
+        }
+      ],
+      "default": "center",
+      "label": "Content Vertical Alignment"
+    },
+    {
+      "type": "color",
+      "id": "titleColor",
+      "label": "Title Color"
+    },
+    {
+      "type": "color",
+      "id": "textColor",
+      "label": "Text Color"
+    },
+    {
+      "type": "color",
+      "id": "bgColor",
+      "label": "Background Color"
+    },
+    {
+      "type": "range",
+      "id": "contentPadding",
+      "min": 0,
+      "max": 10,
+      "default": 3,
+      "unit": "rem",
+      "label": "Content Padding"
+    },
+    {
+      "type": "checkbox",
+      "id": "displayButton",
+      "default": true,
+      "label": "Display Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "buttonStyleSecondary1",
+      "default": false,
+      "label": "Use outline button style"
+    },
+    {
+          "type": "url",
+          "id": "buttonLink",
+          "label": "Button Link"
+        },
+    {
+      "type": "text",
+      "id": "buttonLabel",
+      "default": "Button label",
+      "label": "Button Label"
+    },
+
+     {
+        "type": "liquid",
+        "id": "style_class",
+        "label": "Custom Class"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_css",
+        "label": "Custom CSS",
+        "info": "Section-specific CSS. Please add codes with caution."
+      }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Title",
+          "label": "Title"
+        },
+                  {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h2",
+              "label": "Small"
+            },
+            {
+              "value": "h1",
+              "label": "Medium"
+            },
+            {
+              "value": "h0",
+              "label": "Large"
+            }
+          ],
+          "default": "h2",
+          "label": "Title Size"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "buttonLabel",
+          "label": "Button Label"
+        },
+        {
+          "type": "url",
+          "id": "buttonLink",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image List",
+      "blocks": [
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+/*!
+ * Image List
+ * Version: 1.0.1
+ * License: Commercial License
+ */
+function sectionImageList() {
+  var imageListID = Math.random().toString(36).slice(2);
+  var imageListElement = document.querySelector(".js-image-list");
+  if (!imageListElement) return null;
+
+  var options_activateItemsOnHover = imageListElement.getAttribute("data-activate-items-on-hover");
+  imageListElement.classList.remove("js-image-list");
+  imageListElement.setAttribute("id", "imageList-" + imageListID);
+
+  var navItems = [].slice.call(imageListElement.querySelectorAll(".c-image-list__nav a"));
+  var mediaItems = [].slice.call(imageListElement.querySelectorAll(".c-image-list__media-item"));
+
+  function activateItem(index) {
+    var activeLink = imageListElement.querySelector(".c-image-list__nav a.is-active");
+    var activeItem = imageListElement.querySelector(".c-image-list__media-item.is-active");
+
+    activeLink && activeLink.classList.remove("is-active");
+    activeItem && activeItem.classList.remove("is-active");
+
+    navItems[index].classList.add("is-active");
+    mediaItems[index].classList.add("is-active");
+  }
+
+  navItems.forEach(function(link, index) {
+    if (options_activateItemsOnHover === "true") {
+      link.addEventListener("mouseenter", function(e) {
+        activateItem(index);
+      });
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", sectionImageList);
+</script>
+<style>
+.c-image-list {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+}
+
+
+  
+
+.c-image-list__nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 30px;
+}
+
+.c-image-list__nav li {
+  line-height: 0;
+}
+  
+ @media screen and (min-width:750px) {
+.c-image-list__nav li:first-child a {
+  padding-top: 0 !important;
+}
+.c-image-list__nav li:last-child a {
+  padding-bottom: 0 !important;
+}
+   
+ }
+
+.c-image-list__nav--alignment-center {
+  text-align: center;
+}
+.c-image-list__nav--alignment-right {
+  text-align: right;
+}
+
+.c-image-list__nav a {
+  display: inline-block;
+  color: #000;
+  text-decoration: none;
+  transition: color 0.5s, border 0.5s;
+}
+.c-image-list__nav a span {
+  transition: border 0.35s;
+  border-bottom: 0.05em solid transparent;
+}
+
+.c-image-list__nav a.is-active {
+  color: currentColor !important;
+}
+.c-image-list__nav--active-border a.is-active span {
+  border-bottom-color: currentColor;
+}
+
+/* Media */
+.c-image-list__media-wrapper {
+ 
+  position: relative;
+}
+.c-image-list__media-item {
+  overflow: hidden;
+  transition: opacity 0.75s;
+}
+.c-image-list__media-item.is-active {
+  position: relative;
+  opacity: 1;
+}
+.c-image-list__media-item:not(.is-active) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.c-image-list__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  max-height: 100vh;
+  box-sizing: border-box;
+  object-fit: cover;
+}
+@media (min-width:750px) {
+  .c-image-list__media {
+    min-width: 100%;
+  }
+  .c-image-list__nav-wrapper--position-right {
+    order: 1;
+  }
+}
+
+/* Content Wrapper */
+.c-image-list__media-content-wrapper {
+  box-sizing: border-box
+}
+
+@media (max-width:749px) {
+  .c-image-list__media-content-wrapper {
+    width: 100% !important
+  }
+}
+
+/* Content */
+.c-image-list__media-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 2rem;
+}
+@media (min-width:750px) {
+  .c-image-list__media-content {
+    padding: 2.3rem 3rem
+  }
+}
+.c-image-list__media-content :first-child {
+  margin-top: 0
+}
+.c-image-list__media-content :last-child {
+  margin-bottom: 0
+}
+
+@media (min-width:750px) {
+  .c-image-list__media-content-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%
+  }
+
+  .c-image-list__media-content-wrapper--stacked {
+    flex-direction: column
+  }
+}
+</style>
+
+
+{%style%}
+@media screen and (max-width:750px) {
+.c-image-list {
+ flex-direction:column;
+}
+
+.c-image-list__nav {
+display:flex;
+flex-wrap:wrap;
+width:100%;
+}
+
+.c-image-list__nav > * {
+flex:1;
+}
+
+
+}
+{%endstyle%}

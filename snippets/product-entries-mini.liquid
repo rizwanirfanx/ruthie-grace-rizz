@@ -1,0 +1,168 @@
+{% if settings.sweeps_switch %}
+{%- assign p = product -%}
+
+{%- comment %} Base (fallback) por si no tenemos line_item todavía {%- endcomment -%}
+{%- assign base_price = p.metafields.sharedsweeps.priceoverride -%}
+{%- if base_price == blank -%}
+  {%- assign base_price = p.price | divided_by: 100.0 -%}
+{%- endif -%}
+
+{%- assign global_mult  = shop.metafields.sharedsweeps.global_multiplier | default: 1 -%}
+{%- assign product_mult = p.metafields.sharedsweeps.multiplier -%}
+{%- assign mult = global_mult -%}
+{%- if product_mult != blank and product_mult > global_mult -%}
+  {%- assign mult = product_mult -%}
+{%- endif -%}
+
+{%- comment %} ⬇️ Override 5X si el producto es "sale" por tags {%- endcomment -%}
+{%- if p.tags and p.tags != blank -%}
+  {%- assign tags_lower = p.tags | join: ',' | downcase -%}
+  {%- if tags_lower contains 'sales' or tags_lower contains 'sale' -%}
+    {%- assign mult = 5 -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign bonus = p.metafields.sharedsweeps.bonusEntries | default: 0 -%}
+
+{%- assign li  = line_item -%}
+{%- assign qty = quantity | default: li.quantity | default: 1 -%}
+
+{%- comment %} Tomamos SIEMPRE el mismo total mostrado en la celda "text-end" {%- endcomment -%}
+{%- assign line_total_money = 0 -%}
+{%- if li and li.final_line_price -%}
+  {%- assign line_total_money = li.final_line_price | times: 1.0 | divided_by: 100.0 -%}
+{%- endif -%}
+
+{%- comment %} unit_price efectivo = total de línea / qty (fallback a base_price) {%- endcomment -%}
+{%- assign unit_price = 0 -%}
+{%- if line_total_money > 0 and qty > 0 -%}
+  {%- assign unit_price = line_total_money | divided_by: qty -%}
+{%- else -%}
+  {%- assign unit_price = base_price -%}
+{%- endif -%}
+
+{%- assign qty_id = 'quantity_' | append: p.title | replace: ' ', '_' -%}
+
+<div class="ss-cart-badge"
+     data-unit="{{ unit_price }}"
+     data-base="{{ base_price }}"
+     data-mult="{{ mult }}"
+     data-bonus="{{ bonus }}"
+     data-item-key="{{ item_key | default: '' }}"
+     data-qty-id="{{ qty_id }}"
+     style="--ss-accent1:#E9A3B0;--ss-accent2:#F6CCD4;--ss-fg:#4A4A4A;">
+  <span class="ss-cart-badge__text">
+    Earn
+    <!-- Inicial: usa el MISMO total de la celda text-end -->
+    <span class="ss-cart-value">{{ line_total_money | times: mult | floor }}</span> Entries
+    {%- if bonus > 0 -%}+ <span class="ss-cart-bonus">{{ bonus | times: qty }}</span> Bonus{%- endif -%}
+  </span>
+  <span class="ss-cart-mult">{{ mult }}X</span>
+</div>
+
+<script>
+(function(){
+  if (window.__SS_CART_BADGE_INIT__) return;
+  window.__SS_CART_BADGE_INIT__ = true;
+
+  function parseQty(el){ var v = parseInt(el && el.value, 10); return (isNaN(v)||v<1)?1:v; }
+
+  function safeParsePrice(text){
+    if(!text) return 0;
+    var clean=text.replace(/[^0-9,.\-]/g,'').trim();
+    if(clean.includes(',')&&clean.includes('.')){
+      var lc=clean.lastIndexOf(','), ld=clean.lastIndexOf('.');
+      clean=(lc>ld)?clean.replace(/\./g,'').replace(',', '.'):clean.replace(/,/g,'');
+    } else if(clean.includes(',')){ clean=clean.replace(',', '.'); }
+    var n=parseFloat(clean); return isNaN(n)?0:n;
+  }
+
+  function findQtyEl(badge){
+    var root=badge.closest('[data-cart-item], .cart-item, li, .cart__item, tr')||document;
+    return root.querySelector('select[data-cartitem-quantity]')||null;
+  }
+
+  function readLineTotalFromRow(badge){
+    var row=badge.closest('tr')||badge.closest('[data-cart-item], .cart-item, li, .cart__item');
+    if(!row) return 0;
+    var priceCell=row.querySelector('td.text-end');
+    return priceCell ? safeParsePrice(priceCell.textContent) : 0;
+  }
+
+  function updateBadge(badge){
+    if(!badge) return;
+    var mult  = parseFloat(badge.dataset.mult)||1;
+    var bonus = parseFloat(badge.dataset.bonus)||0;
+    var qtyEl = findQtyEl(badge);
+    var qty   = parseQty(qtyEl);
+    var lineTotal = readLineTotalFromRow(badge);
+    if(!lineTotal){
+      var unit=parseFloat(badge.dataset.unit)||parseFloat(badge.dataset.base)||0;
+      lineTotal=unit*qty;
+    }
+    var entries=Math.floor(lineTotal*mult);
+    var valEl=badge.querySelector('.ss-cart-value');
+    var bonusEl=badge.querySelector('.ss-cart-bonus');
+    if(valEl) valEl.textContent=String(entries);
+    if(bonusEl) bonusEl.textContent=String(bonus*qty);
+  }
+
+  function updateAll(){ document.querySelectorAll('.ss-cart-badge').forEach(updateBadge); }
+
+  (document.readyState==='loading')
+    ? document.addEventListener('DOMContentLoaded', function(){ requestAnimationFrame(updateAll); })
+    : requestAnimationFrame(updateAll);
+
+  document.addEventListener('change', function(e){
+    if(!e.target||!e.target.matches('select[data-cartitem-quantity]')) return;
+    var root=e.target.closest('[data-cart-item], .cart-item, li, .cart__item, tr');
+    if(root) root.querySelectorAll('.ss-cart-badge').forEach(updateBadge);
+  }, { passive:true });
+
+  var drawer=document.querySelector('#CartDrawer, .cart-drawer, .cart__drawer, .cart, form[action*="/cart"]');
+  if(drawer && 'MutationObserver' in window){
+    var rafPending=false;
+    var mo=new MutationObserver(function(){
+      if(rafPending) return;
+      rafPending=true;
+      requestAnimationFrame(function(){ rafPending=false; updateAll(); });
+    });
+    mo.observe(drawer, { childList:true, subtree:true });
+  }
+
+  window.addEventListener('cart:updated', function(){ requestAnimationFrame(updateAll); });
+  window.addEventListener('cart:refresh', function(){ requestAnimationFrame(updateAll); });
+})();
+</script>
+
+<style>
+  .ss-cart-badge{
+    --_accent1: var(--ss-accent1,#E9A3B0);
+    --_accent2: var(--ss-accent2,#F6CCD4);
+    --_fg:      var(--ss-fg,#4A4A4A);
+    margin: 8px 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--_accent1);
+    background: #fff;
+    color: var(--_fg);
+    font-family: "Inter","Arial",sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    transition: background .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .ss-cart-badge:hover{
+    background: linear-gradient(0deg, rgba(246,204,212,.20), rgba(246,204,212,.20)), #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  }
+  .ss-cart-badge__text{ display:inline-flex; align-items:center; gap:4px; text-transform:uppercase; font-size:12px; color:var(--_fg); letter-spacing:.3px; }
+  .ss-cart-value{ color: var(--_accent1); font-weight:800; font-size:14px; }
+  .ss-cart-bonus{ color:#2e7d32; font-weight:700; margin-left:2px; }
+  .ss-cart-mult{ background: var(--_accent1); color:#fff; font-size:12px; font-weight:800; padding:4px 12px; border-radius:999px; min-width:38px; text-align:center; border:1px solid var(--_accent1); box-shadow:0 1px 6px rgba(0,0,0,.08); }
+</style>
+{% endif %}

@@ -1,0 +1,808 @@
+/* fonts */
+
+@font-face {
+  font-family: "simplon";
+  src: url("https://cdn.shopify.com/s/files/1/0988/8248/files/SimplonMono-Regular-WebS.woff?v=1741291500")
+      format("woff"),
+    url("https://cdn.shopify.com/s/files/1/0988/8248/files/SimplonMono-Regular-WebS.woff2?v=1741291500")
+      format("woff2");
+}
+
+@font-face {
+  font-family: "armin";
+  src: url("https://cdn.shopify.com/s/files/1/0988/8248/files/ArminSoft-Regular.woff?v=1741291651")
+      format("woff"),
+    url("https://cdn.shopify.com/s/files/1/0988/8248/files/ArminSoft-Regular.woff2?v=1741291651")
+      format("woff2");
+}
+
+@font-face {
+  font-family: "cradley";
+  src: url("https://cdn.shopify.com/s/files/1/0988/8248/files/CradleyTitle.woff?v=1741292314")
+      format("woff"),
+    url("https://cdn.shopify.com/s/files/1/0988/8248/files/CradleyTitle.woff2?v=1741292314")
+      format("woff2");
+}
+
+@font-face {
+  font-family: "sang-bleu";
+  src: url("https://cdn.shopify.com/s/files/1/0988/8248/files/SangBleuSunrise-Regular-WebS.woff?v=1741292417")
+      format("woff"),
+    url("https://cdn.shopify.com/s/files/1/0988/8248/files/SangBleuSunrise-Regular-WebS.woff2?v=1741292418")
+      format("woff2");
+}
+
+@font-face {
+  font-family: "suisse";
+  src: url("https://cdn.shopify.com/s/files/1/0988/8248/files/SuisseNeue-Light-WebS.woff?v=1741292528")
+      format("woff"),
+    url("https://cdn.shopify.com/s/files/1/0988/8248/files/SuisseNeue-Light-WebS.woff2?v=1741292528")
+      format("woff2");
+}
+
+@font-face {
+  font-family: "freightext";
+  src: url("https://cdn.shopify.com/s/files/1/0988/8248/files/freigtexprobook.woff?v=1741298009")
+      format("woff"),
+    url("https://cdn.shopify.com/s/files/1/0988/8248/files/freigtexprobook.woff2?v=1741297999")
+      format("woff2");
+}
+
+
+
+
+
+
+p.h1{
+  font-family: "cradley";
+  font-size: 45px;
+  letter-spacing: 0em;
+      line-height: 50px;
+}
+
+.h1{
+  font-family: "cradley";
+  font-size: 45px;
+   letter-spacing: 0em;
+      line-height: 50px;
+}
+
+h1{
+  font-family: "cradley" !important;
+  font-size: 45px;
+   letter-spacing: 0em !important;
+      line-height: 50px;
+}
+h1.h1{
+  font-family: "cradley";
+  font-size: 45px;
+   letter-spacing: 0em;
+      line-height: 50px;
+}
+
+@media (max-width:800px) {
+  .h1, h1 {
+    font-size: 35px !important;
+    line-height: 40px !important;
+}}
+
+h2{
+  font-family: "sang-bleu" !important;
+  font-size: 40px;
+letter-spacing: 0em !important;
+      line-height: 48px;
+}
+
+p.h2{
+  font-family: "sang-bleu";
+  font-size: 40px;
+letter-spacing: 0em !important;
+      line-height: 48px;
+}
+
+.h2{
+  font-family: "sang-bleu";
+  font-size: 40px;
+letter-spacing: 0em !important;
+      line-height: 48px;
+}
+
+
+h2.h2{
+  font-family: "sang-bleu";
+  font-size: 40px;
+  letter-spacing: 0em;
+      line-height: 48px;
+}
+@media (max-width:800px) {
+  p.h2{
+    font-size: 30px;
+          line-height: 38px;}
+h2.h2{
+    font-size: 30px;
+          line-height: 38px;}
+
+  h2{
+    font-size: 30px;
+          line-height: 38px;}
+}
+    
+
+h3{
+  font-family: "cradley" !important;
+  font-size: 45px !important;
+   letter-spacing: 0em !important;
+    line-height: 50px !important;
+}
+.h3{
+  font-family: "cradley" !important;
+  font-size: 45px !important;
+   letter-spacing: 0em !important;
+      line-height: 50px;
+}
+
+
+
+@media (max-width:800px) {
+  .h3, h3 {
+    font-size: 35px !important;
+    line-height: 40px !important;
+}}
+
+
+
+.h4 {
+      font-family: sang-bleu important;
+    letter-spacing: 0em important;
+    font-size: 25px important;
+    text-transform: lowercase important;
+    line-height: 30px;
+}
+h4 {
+      font-family: sang-bleu !important;
+    letter-spacing: 0em !important;
+    font-size: 25px !important;
+    text-transform: lowercase !important;
+    line-height: 30px;
+}
+
+
+
+
+p.h4 {
+      font-family: sang-bleu;
+    letter-spacing: 0em;
+    font-size: 25px;
+    text-transform: lowercase;
+    line-height: 30px;
+}
+
+h5 {
+  font-family: "suisse" !important;
+  letter-spacing: 0.1em !important;
+  font-size: 15px !important;
+}
+
+
+.h5 {
+  font-family: "suisse" !important;
+  letter-spacing: 0.1em !important;
+  font-size: 15px !important;
+}
+
+
+
+.h6 {
+    font-family: "armin";
+  letter-spacing: 0.1em;
+    font-size: 11px;}
+
+h6 {
+    font-family: "armin" !important;
+  letter-spacing: 0.1em !important;
+    font-size: 11px;
+color: black;}
+
+p.h6 {
+    font-family: "armin";
+  letter-spacing: 0.1em;
+    font-size: 11px;
+color: black;}
+
+th{
+  opacity: 1 !important;
+    font-family: "armin" !important;
+  letter-spacing: 0.1em;
+    font-size: 11px;}
+
+.text-lg{
+    font-family: "armin";
+  letter-spacing: 0.1em;
+    font-size: 11px !important;
+  text-transform: uppercase;
+color: black;}
+
+button, label, summary, [role=button], [type=checkbox], [type=radio]{
+    font-family: "armin";
+  letter-spacing: 0.1em;
+    font-size: 11px !important;
+  text-transform: uppercase;
+color: black;}
+
+
+
+
+p{
+    font-family: "freightext";
+      font-size: 16px;
+}
+ul{
+    font-family: "freightext";
+}
+
+
+a.link{
+    font-family: "armin";
+  letter-spacing: 0.1em;
+    font-size: 11px;
+text-transform: uppercase;}
+
+
+
+
+
+/*header*/
+p.prose.heading.is-selected{
+   font-family: "simplon";
+    letter-spacing: 0em;
+    font-size: 12px;
+}
+
+a.block.h6 {
+    font-family: "armin";
+  letter-spacing: 0.1em;
+    font-size: 11px;
+}
+.header__search-link {
+  color: transparent !important;
+  padding-left: 15px;
+}
+@media screen and (max-width: 900px) {
+  .header__search-link {display: none;
+  }
+}
+
+
+.link-faded {
+    color: black !important;
+  text-transform: uppercase !important;
+  font-family: "simplon" !important;
+  letter-spacing: 0em !important;
+  font-size: 12px !important;
+}
+
+
+ p.scrolling-content__text.heading{
+  font-family: "suisse" !important;
+  letter-spacing: 0.1em !important;
+  font-size: 15px !important;
+}
+/*side cart*/
+.drawer::part(header) {
+    border-block-end: 1px solid black !important;}
+
+:where(.modal,.drawer,.popover,.header-search)::part(close-button) {
+        opacity: 1;}
+
+
+
+
+/*mobile menu*/
+.header-sidebar__linklist.divide-y .header-sidebar__linklist-button{
+        font-family: "armin";
+  letter-spacing: 0.1em;
+    font-size: 11px;
+}
+
+.header-sidebar *, :before, :after {    border-color: black !important; }
+
+.smallcaps{
+        font-family: "armin";
+  letter-spacing: 0.1em;
+    font-size: 11px;
+}
+/* cart icon on mobile*/
+.header__secondary-nav svg {
+  display: none;
+}
+@media screen and (max-width: 900px) { 
+.header__secondary-nav:before{
+  content: "";
+        background-size: 30px 30px;
+        height: 30px;
+        width: 30px;
+        transform: translate(-50%);
+        background-repeat: no-repeat !important;
+        position: absolute;
+         right: 0px;
+        bottom: 24%;
+    display: block;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparent;
+  background-image: url(https://cdn.shopify.com/s/files/1/0988/8248/files/ShoppingBag.png?v=1742934837);
+}
+
+.header__cart-dot.is-visible {
+
+    top: -10px;
+}}
+
+
+
+
+
+
+
+
+
+/*search*/
+    .sm\:h4 {
+        font-family: "suisse" !important;
+        letter-spacing: 0.1em !important;
+        font-size: 15px !important;
+      letter-spacing: 0.1em !important;}
+
+span.sm\:h5{
+        font-family: "suisse" !important;
+        letter-spacing: 0.1em !important;
+        font-size: 15px !important;
+      letter-spacing: 0.1em !important;}
+
+input.header-search__input.h5.sm:h4{
+        font-family: "suisse" !important;
+        letter-spacing: 0.1em !important;
+        font-size: 15px !important;
+      letter-spacing: 0.1em !important;}
+.link-reverse{
+    font-family: "freightext";
+}
+.content-tabs [role=tab]{
+    font-family: "simplon" !important;
+  letter-spacing: 0em !important;
+  font-size: 12px !important;
+}
+
+
+/* buttons */
+    .prose:not(.prose--tight) :is(.button,.button-group:has(.button)) {
+    font-family: "armin";
+  letter-spacing: 0.1em;
+    font-size: 11px;
+
+}
+
+.button {
+      font-family: "armin" !important;
+  letter-spacing: 0.1em !important;
+    font-size: 11px !important;
+}
+
+
+/* collection */
+.product-card__info{
+      justify-items: left;
+      text-align: left;}
+
+.product-card__info .justify-items-center {
+    justify-items: left;}
+
+.product-card__info .h6{
+    justify-items: left;
+        text-align: left;
+      font-family: "sang-bleu";
+    letter-spacing: 0em;
+    font-size: 25px;
+  text-transform: lowercase;
+      line-height: 30px;
+}
+@media screen and (min-width: 800px) {
+  .product-card__info .h6{    
+    font-size: 20px;
+  text-transform: lowercase;
+      line-height: 25px;}
+}
+
+
+span._6-5{
+    color: black;
+  font-family: "simplon" !important;
+  letter-spacing: 0em !important;
+  font-size: 12px !important;
+}
+
+
+
+.h6.text-subdued{
+    color: black;
+  font-family: "simplon" !important;
+  letter-spacing: 0em !important;
+  font-size: 12px !important;
+}
+
+
+.featured-collections-carousel__item {
+    gap: 2em;}
+
+
+/*newsletter*/
+.input,
+.textarea,
+.select {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1.5px solid black;
+  text-align: center !important;
+}
+
+.input{
+  opacity: 1;
+  color: black;
+  font-family: "armin" !important;
+  letter-spacing: 0.1em !important;
+    font-size: 11px !important;
+text-transform: uppercase;}
+
+.form-row>button{
+
+  font-family: "armin" !important;
+  letter-spacing: 0.1em !important;
+    font-size: 11px !important;
+text-transform: uppercase;}
+
+
+
+/*image list */
+.c-image-list__nav a span {
+  font-family: "cradley" !important;
+  font-size: 45px !important;
+  letter-spacing: 0em !important;
+  line-height: 50px;
+  color: #61252d;
+}
+@media screen and (min-width: 800px) {
+.c-image-list__nav:after{
+  content: "";
+      background-size: 45px 45px;
+      height: 35px;
+    width: 105px;
+    transform: translate(-50%);
+    background-repeat: no-repeat !important;
+    position: absolute;
+    left: 75%;
+    bottom: 15%;
+    display: block;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparent;
+  background-image: url(https://cdn.shopify.com/s/files/1/0988/8248/files/RuthieGrace_Arrow02_Espresso.png?v=1741370788);
+}}
+
+/* list section mobile */
+@media screen and (max-width: 800px) {
+  .c-image-list__nav {
+    display: block !important;
+    padding: 0vw;
+  }
+  .c-image-list__nav--alignment-center a {
+    line-height: 20px !important;
+  }
+  .c-image-list__nav--alignment-center {
+    padding: 0vw !important;
+    padding-bottom: 4rem !important;
+  }
+     .c-image-list {
+        flex-direction: column-reverse !important;
+    }
+.c-image-list__nav li{
+    padding: 10px !important;
+  }
+}
+
+
+
+
+
+/* footer */
+.follow-on-shop {
+  display: none !important;
+}
+@media screen and (min-width: 900px) {
+  .footer__block--text {
+    max-width: 14rem;
+  }
+}
+@media screen and (max-width: 900px) {
+  .footer__block-list {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .social-media--list {
+    justify-content: center;
+  }
+}
+.text-subdued{
+  color: black !important;
+    font-family: "armin" !important;
+  letter-spacing: 0.1em !important;
+    font-size: 11px !important;
+text-transform: uppercase;
+}
+
+
+
+.footer {
+  padding-block-start: 0px;
+  padding-block-end: 0px !important;
+}
+
+
+.footer {
+  padding-block-end: 0;
+}
+.footer__aside {
+  justify-content: center;
+  background-color: #f99abd;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.footer .container {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+@media screen and (min-width: 800px) {
+  .footer__block-list {
+    padding: 40px;
+    column-gap: 0rem;
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+}
+.footer__inner {
+  row-gap: 0px;
+}
+
+@media screen and (max-width: 700px) {
+  .footer__block-list {
+    text-align: center;
+    margin: auto;
+  }
+  .footer__block-list {
+    padding: 30px 80px !important;
+  }
+}
+
+
+.heading.text-subdued.text-xxs{
+  color: black;
+    font-family: "armin" !important;
+  letter-spacing: 0.1em !important;
+    font-size: 11px !important;
+text-transform: uppercase;
+}
+
+
+
+/*quick buy */
+
+
+
+.product-title.h3 {
+  color: #61252d;
+    font-size: 35px !important;
+    line-height: 40px !important;
+}
+
+
+label.block-swatch{
+      font-family: "armin" !important;
+  letter-spacing: 0.1em !important;
+    font-size: 11px !important;
+text-transform: uppercase;
+}
+
+
+legend{
+      font-family: "armin" !important;
+  letter-spacing: 0.1em !important;
+    font-size: 11px !important;
+text-transform: uppercase;
+}
+
+.quantity-selector__input{
+     font-family: "simplon";
+    letter-spacing: 0em;
+    font-size: 12px;
+}
+.button--outline {
+    --initial-gradient: linear-gradient(#dc8da5, #dc8da5) !important;
+  border-color: transparent !important;
+}
+.button--outline:hover {
+color: #dc8da6 !important; 
+}
+
+
+.shopify-payment-button__button--unbranded{
+      font-family: "armin" !important;
+  letter-spacing: 0.1em !important;
+    font-size: 11px !important;
+text-transform: uppercase;
+      background-color: #dc8da6 !important;
+  border-radius: 0px;
+      padding: 1.5em 2em !important;
+
+}
+.button, .shopify-challenge__button, .shopify-payment-button__button--unbranded {
+    --initial-gradient: linear-gradient(rgb(220 141 165), rgb(220 141 165));}
+
+.shopify-payment-button__button--unbranded {
+    border-radius: 0px !important;
+color: #dc8da6 !important; }
+
+
+
+.badge--sold-out {
+  background: #e9aca4 !important;
+   font-family: "simplon" !important;
+    letter-spacing: 0em  !important;
+    font-size: 12px  !important;}
+
+.badge--on-sale{
+     font-family: "simplon" !important;
+    letter-spacing: 0em  !important;
+    font-size: 12px  !important;
+}
+span#shopify-installments-content {
+    font-family: "freightext" !important;
+}
+
+
+
+
+/*side cart*/
+
+
+.cart-drawer__items .h6 {
+  font-family: sang-bleu;
+  letter-spacing: 0em;
+  font-size: 25px;
+  text-transform: lowercase;
+  line-height: 30px;
+}
+
+.link-faded-reverse {
+    font-family: "freightext" !important;
+      letter-spacing: 0em  !important;
+  color: black; 
+     font-size: 12px;
+  opacity: 1;
+}
+
+/*product list page*/
+.accordion__toggle{
+        font-family: "armin" !important;
+  letter-spacing: 0.1em !important;
+    font-size: 11px !important;
+text-transform: uppercase;
+
+  
+}
+.breadcrumb__list{
+       font-family: "simplon" !important;
+    letter-spacing: 0em  !important;
+    font-size: 12px  !important;
+}
+.text-with-icon{
+       font-family: "simplon" !important;
+    letter-spacing: 0em  !important;
+    font-size: 12px  !important;
+  opacity: 1;
+}
+.collection-toolbar {
+    box-shadow: 0 1px #101828, 0 0px #101828 !important;}
+
+.text-xxs{
+       font-family: "simplon" !important;
+    letter-spacing: 0em  !important;
+    font-size: 12px  !important;
+  opacity: 1;
+  color: black;
+  
+}
+.collection-toolbar__button{
+  opacity: 1 !important;
+}
+
+/*about*/
+
+
+
+
+/*swash*/
+#shopify-section-template--22141803757591__rich_text_AbffgG p.h4:before{
+  content: "";
+      background-size: 110px 110px !important;
+    height: 120px;
+    width: 120px;
+    transform: translate(-50%);
+    background-repeat: no-repeat !important;
+    position: absolute;
+    right: 26px;
+    z-index: -1;
+    bottom: -54%;
+    display: block;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparent;
+  background-image: url(https://cdn.shopify.com/s/files/1/0988/8248/files/RuthieGrace_Swatch02_Pink.png?v=1743627735);
+}
+
+
+
+
+
+
+
+
+/*insta feed */
+#shopify-section-sections--21985437483031__1743631293c724b2a7 {
+@media screen and (min-width:800px) {
+.shopify-block.shopify-app-block:after {
+    content: "";
+    position: absolute;
+    left: 10%;
+    margin-top: -210px;
+    display: flex;
+    background-size: 200px 200px;
+    height: 200px;
+    width: 200px;
+    transform: translate(-50%);
+    background-repeat: no-repeat !important;
+    background-image: url(https://cdn.shopify.com/s/files/1/0988/8248/files/RuthieGrace_SecondaryLogoV2_Maroon.jpg?v=1743629943);
+    justify-items: start;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.instafeed-new-layout-item:first-child {
+opacity: 0;
+}
+
+
+
+}
+}
+
+
+
+
+
+
+/* attentive */
+.css-1fwb584 {
+font-family: "suisse" !important;
+letter-spacing: 0.1em !important;
+font-size: 15px !important;
+letter-spacing: 0.1em !important;}
+
+

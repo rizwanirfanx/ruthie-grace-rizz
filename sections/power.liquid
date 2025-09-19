@@ -1,0 +1,2063 @@
+{% style %}
+#section-{{ section.id }} a:not(.button) {
+                
+                  color:unset !important;
+                  text-decoration:none !important;
+                 }
+
+{%- for block in section.blocks -%}
+           {% assign supported_accent = 'inline_accent' %}
+           
+           {%- if supported_accent contains block.type -%}
+
+                {%- unless block.settings.decor_position == 'hover' -%}
+                 #section-{{ section.id }} a[href*="{{block.settings.keyword}}"] {
+                  pointer-events:none;
+                  color:unset !important;
+                  text-decoration:none !important;
+                 }
+                #section-{{ section.id }} a[href*="{{block.settings.keyword}}"]::before {
+                 content:'';
+                 width:{{block.settings.width}}em;
+                 height:1em;
+                 vertical-align:sub;
+                 display:inline-block;
+                 background-image:url({{block.settings.image | img_url: 'master'}});
+                 background-position:{{block.settings.image_focus}};
+                 background-size:cover;
+                 margin-left:1vw;
+                 margin-right:1vw;
+                 border:1px solid;
+                 pointer-events:none;
+
+
+                }
+
+                {%- endunless -%}
+
+              {%- if block.settings.decor_position  == 'hover' -%}
+
+                #section-{{ section.id }} p {
+                 isolation:isolate;
+                }
+                #section-{{ section.id }} a[href*="{{block.settings.keyword}}"] {
+                  position:relative;
+                  color:unset !important;
+                  text-decoration:underline !important;
+                  
+                 }
+
+
+                #section-{{ section.id }} a[href*="{{block.settings.keyword}}"]::before {
+                 content:'';
+                 width:{{block.settings.width}}em;
+                 padding-bottom:150%;
+                 position:absolute;
+                 background-image:url({{block.settings.image | img_url: 'master'}});
+                 background-position:center;
+                 background-size:contain;
+                 background-repeat:no-repeat;
+                 z-index:-1;
+                 opacity:0;
+                 transition:opacity 0.5s;
+                 transform:translate(-50%, -50%);
+                 left:50%;
+                 top:50%;
+
+                }
+
+                #section-{{ section.id }} a[href*="{{block.settings.keyword}}"]:hover::before {
+                opacity:1;
+                }
+
+              {%- endif -%}
+               
+               
+            {%- endif -%}
+            
+{%- endfor -%}
+
+
+.ss-section {
+display:flex;
+
+}
+
+.ss-content-wrapper {
+width:100%;
+position:relative;
+}
+  .ss-row {
+    width: auto !important;
+    display:flow-root;
+   }
+
+
+.ss-col-12 [class*=ss-col] {
+    float: left;
+    position:relative;
+}
+
+.ss-section {
+position:relative;
+}
+
+.ss-col-12 {
+    width: 100%
+}
+
+.ss-col-12 .ss-col-12 {
+    width: 100%
+}
+
+.ss-col-12 .ss-col-11 {
+    width: 91.6667%
+}
+
+.ss-col-12 .ss-col-10 {
+    width: 83.3333%
+}
+
+.ss-col-12 .ss-col-9 {
+    width: 75%
+}
+
+.ss-col-12 .ss-col-8 {
+    width: 66.6667%
+}
+
+.ss-col-12 .ss-col-7 {
+    width: 58.3333%
+}
+
+.ss-col-12 .ss-col-6 {
+    width: 50%
+}
+
+.ss-col-12 .ss-col-5 {
+    width: 41.6667%
+}
+
+.ss-col-12 .ss-col-4 {
+    width: 33.3333%
+}
+
+.ss-col-12 .ss-col-3 {
+    width: 25%
+}
+
+.ss-col-12 .ss-col-2 {
+    width: 16.6667%
+}
+
+.ss-col-12 .ss-col-1 {
+    width: 8.3333%
+}
+
+.ss-block {
+padding:8px;
+}
+
+.section-background__image {
+background-size:cover;
+background-position:center;
+}
+
+@media screen and (max-width: 749px) {
+.ss-col-12 [class*=ss-col] {
+    float: none !important;
+    width: auto !important;
+}
+
+.ss-section {
+display:flex !important;
+flex-direction:column;
+}
+
+{% unless section.settings.bg_mobile %}
+
+#section-{{ section.id }} .section-background {
+display:none;
+}
+{%endunless%}
+
+{%if section.settings.bg_mobile %}
+#section-{{ section.id }} .section-background {
+min-height:300px;
+position:relative;
+width:100%;
+}
+{%endif%}
+
+
+
+}
+
+
+
+.ss-html-block {
+ position:relative;
+}
+
+
+
+.section-background {
+position:absolute;
+inset:0;
+width:auto;
+}
+.section-background__image {
+position:absolute;
+inset:0;
+width:auto;
+display:block !important;
+}
+
+.section-background_video {
+position:absolute;
+inset:0;
+width:auto;
+display:block !important;
+
+}
+
+.ss-content-wrapper {
+display:flex;
+justify-content:center;
+}
+
+.ss-text__content.ss-grid-block {
+flex-direction:column;
+}
+
+@media screen and (max-width:749px) {
+.ss-content-wrapper {
+
+flex-direction:column;
+}
+
+  }
+@media screen and (min-width:750px) {
+
+
+
+#section-{{ section.id }} {
+min-height: {{ section.settings.min_height }}vh;
+
+}
+#section-{{ section.id }} .ss-content {
+width: {{ section.settings.content_max_width }}%;
+display:flex;
+}
+
+
+
+}
+
+.ss-text__content {
+text-align:center;
+}
+
+
+#section-{{ section.id }} .ss-content {
+align-items:{{ section.settings.content_alignment_vertical}};
+
+
+}
+
+
+
+
+
+#section-{{ section.id }} .ss-content-wrapper {
+justify-content:{{ section.settings.content_alignment_horizontal}};
+}
+
+
+#section-{{ section.id }} {
+padding-bottom:{{section.settings.padding_bottom}}px;
+padding-top:{{section.settings.padding_top}}px;
+
+}
+
+.ss-image {
+
+    display: block;
+    max-width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.ss-video-block {
+position:relative;
+}
+
+.ss-image-wrapper {
+height:0;
+
+position:relative;
+max-width:100%;
+}
+
+
+.ss-overlap-gallery {
+position:relative;
+}
+
+.ss-gallery-video {
+width:80%;
+}
+  .ss-gallery-video video {
+        object-fit:cover;
+        height:100%;
+        width:100%;
+       }
+
+
+.ss-overlap-gallery .ss-overlap-image {
+position:absolute;
+width:60%;
+top:50%;
+transform:translateY(-50%);
+
+}
+
+.ss-grid-block {
+display:flex;
+position:relative;
+}
+
+.ss-overlap-image .ss-image-wrapper {
+height:0;
+padding-bottom:100%;
+
+
+}
+
+.ss-overlap-gallery .ss-overlap-image img{
+object-fit:cover;
+
+}
+
+@media screen and (min-width:750px) {
+#section-{{ section.id }} .ss-col-12 {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.section_column }},minmax(0,1fr));
+    grid-gap:{{ section.settings.grid_gap }}vw;
+}
+
+}
+
+
+.ss-inline--inline_image {
+display:inline-block;
+}
+.ss-inline-image {
+position:relative;
+
+}
+.ss-inline-image img {
+position:absolute;
+ 
+}
+
+.ss-decor {
+position:absolute;
+}
+
+
+.decor-position--top-right {
+right:0;
+left:initial;
+top:0;
+
+}
+
+
+.decor-position--top-left {
+left:0;
+top:0;
+
+}
+
+.decor-position--bottom-left {
+left:0;
+bottom:0;
+top:initial;
+
+}
+
+.decor-position--bottom-right {
+right:0;
+left:initial;
+bottom:0;
+top:initial;
+
+}
+
+.textdecor-position--top {
+top:0;
+border-bottom:1px solid;
+}
+
+.textdecor-position--bottom {
+bottom:0;
+border-top:1px solid;
+}
+
+.textdecor-position--right {
+position:absolute;
+bottom:50%;
+right: 0vw;
+transform-origin: 100% 50%;
+transform: rotate(90deg) translate(50%, 50%);
+
+}
+
+.textdecor-position--left {
+bottom:50%;
+  left: 0vw;
+  transform-origin: 0 50%;
+  transform: rotate(-90deg) translate(-50%, 50%);
+
+}
+
+.ss-inline--inline_text.ss-decor {
+position:absolute;
+display:block;
+width:100%;
+text-align:center;
+
+}
+
+
+
+
+@media screen and (min-width:750px) {
+.ss-grid-span--1 {
+grid-column:auto/span 1;
+}
+
+.ss-grid-span--2 {
+grid-column:auto/span 2;
+}
+
+
+.ss-grid-span--3 {
+grid-column:auto/span 3;
+}
+
+.ss-grid-span--4 {
+grid-column:auto/span 4;
+}
+
+.ss-grid-span--5 {
+grid-column:auto/span 5;
+}
+
+.ss-grid-span--6 {
+grid-column:auto/span 6;
+}
+
+.ss-grid-span--7 {
+grid-column:auto/span 7;
+}
+
+.ss-grid-span--8 {
+grid-column:auto/span 8;
+}
+
+.ss-grid-span--9 {
+grid-column:auto/span 9;
+}
+
+.ss-grid-span--10 {
+grid-column:auto/span 10;
+}
+
+.ss-grid-span--11 {
+grid-column:auto/span 11;
+}
+
+.ss-grid-span--12 {
+grid-column:auto/span 12;
+}
+
+
+
+}
+
+
+@media screen and (min-width:750px) {
+.ss-grid-rowspan--1 {
+grid-row:auto/span 1;
+}
+
+.ss-grid-rowspan--2 {
+grid-row:auto/span 2;
+}
+
+
+.ss-grid-rowspan--3 {
+grid-row:auto/span 3;
+}
+
+.ss-grid-rowspan--4 {
+grid-row:auto/span 4;
+}
+
+.ss-grid-rowspan--5 {
+grid-row:auto/span 5;
+}
+
+.ss-grid-rowspan--6 {
+grid-row:auto/span 6;
+}
+
+.ss-grid-rowspan--7 {
+grid-row:auto/span 7;
+}
+
+.ss-grid-rowspan--8 {
+grid-row:auto/span 8;
+}
+
+.ss-grid-rowspan--9 {
+grid-row:auto/span 9;
+}
+
+.ss-grid-rowspan--10 {
+grid-row:auto/span 10;
+}
+
+.ss-grid-rowspan--11 {
+grid-row:auto/span 11;
+}
+
+.ss-grid-rowspan--12 {
+grid-row:auto/span 12;
+}
+
+
+
+}
+
+
+@media screen and (max-width:749px) {
+.ss-grid__item {
+padding-left:1.5rem;
+padding-right:1.5rem;
+
+}
+
+}
+
+.ss-grid-item .image-with-text__text--caption {
+                 position:relative;
+}
+
+
+@media screen and (max-width:749px) {
+
+.ss-decor, .ss-inline--inline_text.ss-decor  {
+display:none;
+}
+
+}
+
+
+
+.ss-grid-item__position--center  {
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+.ss-grid-item__position--top  {
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+}
+
+.ss-grid-item__position--bottom  {
+display:flex;
+flex-direction:column;
+justify-content:flex-end;
+}
+
+.ss-grid-item__position--stretch  {
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.ss-image-caption-wrapper {
+padding-left:1rem;
+padding-right:1rem;
+}
+
+
+{% if section.settings.gridActive %}
+#section-{{ section.id }} .ss-col-12 {
+
+background-color:{{section.settings.grid_border_color}};
+gap:{{section.settings.grid_gap_px}}px !important;
+
+
+}
+
+#section-{{ section.id }} .ss-col-12 {
+border-top: {{section.settings.grid_gap_px}}px solid {{section.settings.grid_border_color}};
+border-bottom: {{section.settings.grid_gap_px}}px solid {{section.settings.grid_border_color}};
+}
+
+#section-{{ section.id }} .ss-col-12 > * {
+background-color:{{section.settings.grid_bg_color}};
+
+}
+
+{% endif %}
+
+
+
+{{ section.settings.custom_css }}
+
+{% assign classes = section.settings.style_class | split: ", " %}
+
+
+{% endstyle %}
+
+<section class="section ss-section color-{{ section.settings.color_scheme }} {% for class in classes %}{{ class }} {% endfor %}" id="section-{{ section.id }}">
+
+           <div class="section-background">
+  
+   {% if section.settings.background_image %}
+      <div class="section-background__image section-background__image--{{ section.id }}" data-sizes="auto" data-bgset="{{ section.settings.background_image | img_url: 'master' }} {{ section.settings.background_image.width }}w {{ section.settings.background_image.height }}h" 
+           style="background-image: url({{ section.settings.background_image | img_url: 'master' }});"></div>
+    
+   
+         	 
+     
+    {% endif %}
+    
+    
+    {% if section.settings.video_url != blank %}
+                <div class="section-background_video">
+                    <video style="object-fit: cover; height: 100%; width: 100%;" autoplay muted loop muted playsinline>
+                      <source src="{{ section.settings.video_url }}" type="video/mp4">
+                    </video>
+                </div>                   
+	 		  
+    {% endif %} 
+    
+   
+
+          
+      
+        
+  
+     </div>
+  
+  
+           {%- for block in section.blocks -%}
+           {% assign supported_decor = 'inline_image,inline_text,inline_video' %}
+           
+           {%- if supported_decor contains block.type -%}
+           {% assign decorclasses = block.settings.style_class | split: ", " %}
+            {%- case block.type -%}
+            {%- when 'inline_image' -%}
+           <div class="ss-inline--{{ block.type }} ss-decor decor-position--{{block.settings.decor_position}}{% for class in decorclasses %} {{ class }}{% endfor %}" {{ block.shopify_attributes }}>
+            {% if block.settings.inline_image %}
+                  <!--Inline Item Image -->
+             <div class="ss-inline-image" style="padding-bottom: {{ 1 | divided_by: block.settings.inline_image.aspect_ratio | times: 100 }}%; width:{{block.settings.inline_image_width}}vw;">
+              <img class="lazyload lazypreload"
+                  srcset="
+                  {%- if block.settings.inline_image.width >= 165 -%}{{ block.settings.inline_image | img_url: '165x' }} 165w,{%- endif -%}
+                  {%- if block.settings.inline_image.width >= 360 -%}{{ block.settings.inline_image | img_url: '360x' }} 360w,{%- endif -%}
+                  {%- if block.settings.inline_image.width >= 535 -%}{{ block.settings.inline_image | img_url: '535x' }} 535w,{%- endif -%}
+                  {%- if block.settings.inline_image.width >= 720 -%}{{ block.settings.inline_image | img_url: '720x' }} 720w,{%- endif -%}
+                  {%- if block.settings.inline_image.width >= 940 -%}{{ block.settings.inline_image | img_url: '940x' }} 940w,{%- endif -%}
+                  {%- if block.settings.inline_image.width >= 1070 -%}{{ block.settings.inline_image | img_url: '1070x' }} 1070w{%- endif -%}"
+                  src="{{ block.settings.inline_image | img_url: '533x' }}"
+                  alt="{{ block.settings.inline_image.alt | escape }}"
+                  loading="lazy"
+                  width="100%"
+                  height="100%"
+                  >
+             </div>
+              {% if block.settings.caption %}
+             <div class="ss-image-caption-wrapper">
+             {{ block.settings.caption }}  
+             </div>
+             {% endif %}
+             
+             
+         
+             {% endif %}
+              </div>     
+              
+             {%- when 'inline_text' -%}
+             
+               {% if block.settings.inline_text %}
+            
+               <div class="ss-inline--{{ block.type }} ss-decor textdecor-position--{{block.settings.decor_position}}{% for class in decorclasses %} {{ class }}{% endfor %}" {{ block.shopify_attributes }}>
+                {{block.settings.inline_text}}
+               </div>
+                {%- endif -%}
+  
+  
+              {%- when 'inline_video' -%}
+             {% if block.settings.inline_video != blank %}
+              <div class="ss-inline--{{ block.type }} ss-decor decor-position--{{block.settings.decor_position}}{% for class in decorclasses %} {{ class }}{% endfor %}" style="width:{{block.settings.inline_image_width}}vw"  {{ block.shopify_attributes }}>
+                <div class="ss-video-block">
+                    <video style="object-fit: cover; height: 100%; width: 100%;" autoplay muted loop muted playsinline>
+                      <source src="{{ block.settings.inline_video }}" type="video/mp4">
+                    </video>
+                </div>
+                 {% if block.settings.caption %}
+                 <div class="ss-video-caption-wrapper">
+                 {{ block.settings.caption }}  
+                 </div>
+             {% endif %}
+              </div>
+            
+               
+			  {% endif %}
+              
+         
+          
+             {% endcase %} 
+          {%- endif -%}
+          {%- endfor -%}
+          
+
+  
+  <div class="ss-content-wrapper {%if section.settings.section_pagewidth%} page-width{%endif%}">
+     <div class="ss-content">
+       
+  
+     <div class="ss-col-12">  
+    
+             
+       
+       
+   {%- for block in section.blocks -%}
+    {% assign supported_blocks = 'Image, Video, content, column, product, Spacer' %}   
+    {%- if supported_blocks contains block.type -%}   
+     {% assign blockclasses = block.settings.style_class | split: ", " %}
+     <div class="ss-grid__item ss-grid__item--{{ block.type }} ss-grid-span--{{block.settings.span}} ss-grid-rowspan--{{block.settings.rowspan}} ss-grid-item__position--{{block.settings.content_alignment_vertical}}{% for class in blockclasses %} {{ class }}{% endfor %}" {{ block.shopify_attributes }}>
+        {%- case block.type -%}
+       
+          
+       
+            {%- when 'Spacer' -%}
+             <div class="ss-spacer" style="height:100px;width:100%;">
+               
+             </div>  
+       
+            {%- when 'Image' -%}
+             {% if block.settings.image %}
+       
+             <!--Grid Item Image -->
+             <div class="ss-image-wrapper ss-grid-block" style="padding-bottom: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100 }}%;">
+              <img class="lazyload lazypreload ss-image"
+                  srcset="
+                  {%- if block.settings.image.width >= 165 -%}{{ block.settings.image | img_url: '165x' }} 165w,{%- endif -%}
+                  {%- if block.settings.image.width >= 360 -%}{{ block.settings.image | img_url: '360x' }} 360w,{%- endif -%}
+                  {%- if block.settings.image.width >= 535 -%}{{ block.settings.image | img_url: '535x' }} 535w,{%- endif -%}
+                  {%- if block.settings.image.width >= 720 -%}{{ block.settings.image | img_url: '720x' }} 720w,{%- endif -%}
+                  {%- if block.settings.image.width >= 940 -%}{{ block.settings.image | img_url: '940x' }} 940w,{%- endif -%}
+                  {%- if block.settings.image.width >= 1070 -%}{{ block.settings.image | img_url: '1070x' }} 1070w{%- endif -%}"
+                  src="{{ block.settings.image | img_url: '533x' }}"
+                  alt="{{ block.settings.image.alt | escape }}"
+                  loading="lazy"
+                  width="{{ block.settings.image.width }}"
+                  height="{{ block.settings.image.height }}"
+                  >
+             </div>
+             {% if block.settings.caption %}
+             <div class="ss-image-caption-wrapper">
+             {{ block.settings.caption }}  
+             </div>
+             {% endif %}
+	 		  
+            {%- endif -%}
+           
+       
+          {%- when 'Video' -%}
+             {% if block.settings.video_link != blank %}
+              <!--Grid Item Video -->
+                <div class="ss-video-block ss-grid-block">
+                    <video style="object-fit: cover; height: 100%; width: 100%;" autoplay muted loop muted playsinline>
+                      <source src="{{ block.settings.video_link }}" type="video/mp4">
+                    </video>
+                </div>                   
+	 		  
+			{% endif %}    
+  
+       
+          {%- when 'content' -%}
+       
+             <div class="ss-text__content ss-grid-block" style="text-align:{{block.settings.text_alignment}}; padding:{{block.settings.text_padding}}rem">
+          
+          {% if block.settings.caption != blank %}
+             <p class="image-with-text__text--caption {{ block.settings.text_style }} {{ block.settings.text_style }}--{{ block.settings.text_size }} {{ block.settings.text_style }}" {{ block.shopify_attributes }}>{{ block.settings.caption | escape }}</p>
+         {% endif %}
+          <h2 class="{{ block.settings.heading_size }}">{{ block.settings.title }}</h2>
+
+            {% if block.settings.image %}
+       
+
+             <div class="ss-image-wrapper" style="padding-bottom: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100 }}%;">
+              <img class="lazyload lazypreload ss-image"
+                  srcset="
+                  {%- if block.settings.image.width >= 165 -%}{{ block.settings.image | img_url: '165x' }} 165w,{%- endif -%}
+                  {%- if block.settings.image.width >= 360 -%}{{ block.settings.image | img_url: '360x' }} 360w,{%- endif -%}
+                  {%- if block.settings.image.width >= 535 -%}{{ block.settings.image | img_url: '535x' }} 535w,{%- endif -%}
+                  {%- if block.settings.image.width >= 720 -%}{{ block.settings.image | img_url: '720x' }} 720w,{%- endif -%}
+                  {%- if block.settings.image.width >= 940 -%}{{ block.settings.image | img_url: '940x' }} 940w,{%- endif -%}
+                  {%- if block.settings.image.width >= 1070 -%}{{ block.settings.image | img_url: '1070x' }} 1070w{%- endif -%}"
+                  src="{{ block.settings.image | img_url: '533x' }}"
+                  alt="{{ block.settings.image.alt | escape }}"
+                  loading="lazy"
+                  width="{{ block.settings.image.width }}"
+                  height="{{ block.settings.image.height }}"
+                  >
+             </div>
+           
+	 		  
+            {%- endif -%}
+          
+         {{ block.settings.optional_text }}
+          
+          {{ block.settings.text }}
+
+           {% if block.settings.html != blank %}
+          {{ block.settings.html }}
+          {% endif %}
+           
+            {% if block.settings.buttonLabel != blank %}
+            <div class="ss-text__content__button-container">
+              <a class="button{% if section.settings.buttonStyleSecondary1 %} button--secondary{% else %} button--primary{% endif %}"{% if block.settings.buttonLink == blank %} role="link" aria-disabled="true"{% else %} href="{{ block.settings.buttonLink }}"{% endif %}>
+                {% if block.settings.buttonLabel != blank %}
+                  {{ block.settings.buttonLabel | escape }}
+                {% else %}
+                  {{ section.settings.buttonLabel | escape }}
+                {% endif %}
+           
+              </a>
+            </div>
+             {%endif%}
+            </div>
+       
+      
+          
+          
+         
+          {%- when 'column' -%}
+       
+            <div class="ss-overlap-gallery ss-grid-block"{% if block.settings.gallery_image_position == 'left' %} style="justify-content:flex-end;"{%-endif-%}>
+            
+             {% if block.settings.gallery_video_link != blank %}
+                <div class="ss-gallery-video ss-video-block">
+                    <div class="ss-video-wrapper" 
+                    {% if block.settings.video_ar != 'adapt' %}
+                         style="height:0;padding-bottom:{{ block.settings.video_ar }}%;"
+                     {%- endif -%}     
+                         
+                    >
+                    <video
+                    {% if block.settings.video_ar != 'adapt' %}
+                         style="position:absolute;"
+                     {%- endif -%}         
+                           autoplay muted loop muted playsinline>
+                      <source src="{{ block.settings.gallery_video_link }}" type="video/mp4">
+                    </video>
+                    </div>  
+                      
+                </div>                   
+         	  
+			{% endif %} 
+            
+            {% if block.settings.first_image %}
+            <div class="ss-overlap-image"{% if block.settings.gallery_image_position == 'right' %} style="right:0;"{%else%}style="left:0;"{%-endif-%} >
+             <div class="ss-gallery-image ss-image-wrapper">
+              <img class="lazyload lazypreload ss-image"
+                  srcset="
+                  {%- if block.settings.first_image.width >= 165 -%}{{ block.settings.first_image | img_url: '165x' }} 165w,{%- endif -%}
+                  {%- if block.settings.first_image.width >= 360 -%}{{ block.settings.first_image | img_url: '360x' }} 360w,{%- endif -%}
+                  {%- if block.settings.first_image.width >= 535 -%}{{ block.settings.first_image | img_url: '535x' }} 535w,{%- endif -%}
+                  {%- if block.settings.first_image.width >= 720 -%}{{ block.settings.first_image | img_url: '720x' }} 720w,{%- endif -%}
+                  {%- if block.settings.first_image.width >= 940 -%}{{ block.settings.first_image | img_url: '940x' }} 940w,{%- endif -%}
+                  {%- if block.settings.first_image.width >= 1070 -%}{{ block.settings.first_image | img_url: '1070x' }} 1070w{%- endif -%}"
+                  src="{{ block.settings.first_image | img_url: '533x' }}"
+                  alt="{{ block.settings.first_image.alt | escape }}"
+                  loading="lazy"
+                  width="{{ block.settings.first_image.width }}"
+                  height="{{ block.settings.first_image.height }}"
+                  >
+             </div>
+            </div> 
+             {%- endif -%}
+           </div>
+       
+       
+           
+          
+           {%- endcase -%}
+  
+       
+       
+        
+     </div>
+   {%- endif -%}    
+   {%- endfor -%}  
+      </div> <!--ss-col-12 -->
+    </div> <!--ss-content -->
+ 
+  </div> <!--Content Wrapper -->
+  
+  </section>
+{% schema %}
+{
+  "name": "Power Section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+
+{
+      "type": "range",
+      "id": "min_height",
+      "min": 10,
+      "max": 100,
+      "default": 100,
+      "unit": "vh",
+      "label": "Minimum Height"
+    },
+
+
+    {
+      "type": "checkbox",
+      "id": "section_pagewidth",
+      "label": "Apply maximum page width",
+      "default": false
+    },
+
+{
+      "type": "range",
+      "id": "content_max_width",
+      "min": 30,
+      "max": 100,
+      "default": 90,
+      "unit": "%",
+      "label": "Content Maximum Width"
+    },
+
+     {
+      "type": "Video",
+          "id": "video_url",
+          "type": "text",
+          "label": "Background Video URL",
+          "info": "Upload video in Store Settings > Files and copy link. This will replace background image."
+        },
+
+
+ 
+
+   
+
+
+ {
+      "type": "select",
+      "id": "content_alignment_vertical",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Bottom"
+        },
+        {
+          "value": "stretch",
+          "label": "Full Height"
+        }
+      ],
+      "default": "stretch",
+      "label": "Vertical Content Alignment"
+    },
+
+ {
+      "type": "select",
+      "id": "content_alignment_horizontal",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Horizontal Content Alignment",
+      "info":"This will only take effect when the content width is not 100%"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "bg_mobile",
+      "label": "Show background image or video on mobile",
+      "default": false
+    },
+
+    {
+      "type": "header",
+      "content": "Number of Columns"
+    },
+
+    {
+      "type": "range",
+      "id": "section_column",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "unit": "col",
+      "label": "Column",
+      "default": 1
+    },
+
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "vw",
+      "label": "Column Gap",
+      "default": 1
+    },
+
+
+
+   {
+      "type": "header",
+      "content": "Grid Layout"
+    },
+
+   {
+      "type": "checkbox",
+      "id": "gridActive",
+      "label": "Activate Grid Layout",
+      "default": false
+   },
+
+      {
+          "type": "color",
+          "id": "grid_border_color",
+          "label": "Grid Border Color"
+        },
+
+       {
+          "type": "color",
+          "id": "grid_bg_color",
+          "label": "Grid Background Color"
+        },
+
+       {
+      "type": "range",
+      "id": "grid_gap_px",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Border Width",
+      "default": 1
+    },
+
+    
+    {
+      "type": "header",
+      "content": "Content Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 36
+    },
+    
+
+    {
+        "type": "text",
+        "id": "style_class",
+        "label": "Custom Class"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_css",
+        "label": "Custom CSS",
+        "info": "Section-specific CSS. Please add codes with caution."
+      }
+
+  ],
+
+"blocks": [
+    {
+      "type": "Image",
+	  "name": "Image",	
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+
+     {
+          "type": "select",
+      "id": "content_alignment_vertical",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "stretch",
+          "label": "Full Height"
+        }
+      ],
+      "default": "center",
+      "label": "Vertical Content Alignment"
+    },
+
+    
+
+       {
+      "type": "range",
+      "id": "span",
+      "min": -1,
+      "max": 12,
+      "step": 1,
+      "unit": "sp",
+      "label": "Item Column Span",
+      "info": "This is an advanced option",
+      "default": 1
+       },
+
+        {
+      "type": "range",
+      "id": "rowspan",
+      "min": -1,
+      "max": 5,
+      "step": 1,
+      "unit": "sp",
+      "label": "Item Row Span",
+      "info": "This is an advanced option",
+      "default": 1
+       },
+
+       
+
+       {
+          "type": "richtext",
+          "id": "caption",
+         
+          "label": "Caption"
+        },
+       
+         {
+        "type": "text",
+        "id": "style_class",
+        "label": "Custom Class"
+      }
+
+     
+       
+      ]
+    },
+    {
+      "type": "Video",
+	  "name": "Video",	
+      "settings": [
+        {
+          "id": "video_link",
+          "type": "text",
+          "label": "Video URL",
+          "info": "Video Link"
+        },
+
+      
+
+     {
+          "type": "select",
+      "id": "content_alignment_vertical",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "stretch",
+          "label": "Full Height"
+        }
+      ],
+      "default": "center",
+      "label": "Vertical Content Alignment"
+    },
+
+    {
+      "type": "range",
+      "id": "span",
+      "min": -1,
+      "max": 12,
+      "step": 1,
+      "unit": "sp",
+      "label": "Item Column Span",
+      "info": "This is an advanced option",
+      "default": 1
+       },
+
+       {
+      "type": "range",
+      "id": "rowspan",
+      "min": -1,
+      "max": 5,
+      "step": 1,
+      "unit": "sp",
+      "label": "Item Row Span",
+      "info": "This is an advanced option",
+      "default": 1
+       },
+
+        {
+          "type": "richtext",
+          "id": "caption",
+         
+          "label": "Caption"
+        },
+       
+         {
+        "type": "text",
+        "id": "style_class",
+        "label": "Custom Class"
+      }
+       
+        
+
+      ]
+    },
+
+        {
+      "type": "Spacer",
+	  "name": "Spacer",	
+      "settings": [
+   
+
+       {
+      "type": "range",
+      "id": "span",
+      "min": -1,
+      "max": 12,
+      "step": 1,
+      "unit": "sp",
+      "label": "Item Column Span",
+      "info": "This is an advanced option",
+      "default": 1
+       },
+
+       {
+      "type": "range",
+      "id": "rowspan",
+      "min": -1,
+      "max": 5,
+      "step": 1,
+      "unit": "sp",
+      "label": "Item Row Span",
+      "info": "This is an advanced option",
+      "default": 1
+       },
+
+        {
+      "type": "select",
+      "id": "content_alignment_vertical",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Bottom"
+        },
+        {
+          "value": "stretch",
+          "label": "Full Height"
+        }
+      ],
+      "default": "center",
+      "label": "Vertical Content Alignment"
+    },
+
+    
+
+       
+         {
+        "type": "text",
+        "id": "style_class",
+        "label": "Custom Class"
+      }
+
+     
+       
+      ]
+    },
+
+
+
+
+    {
+      "type": "column",
+      "name": "Video and Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "first_image",
+          "label": "First Image"
+        },
+
+       
+        {
+          "id": "gallery_video_link",
+          "type": "text",
+          "label": "Video URL",
+          "info": "Video Link"
+
+        },
+
+         {
+      "type": "select",
+      "id": "video_ar",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to Image"
+        },
+        {
+          "value": "100",
+          "label": "Square"
+        },
+        {
+          "value": "133",
+          "label": "Portrait"
+        },
+        {
+          "value": "66.67",
+          "label": "Landscape"
+        }
+      ],
+      "default": "adapt",
+      "label": "Aspect Ratio"
+    },
+
+         {
+      "type": "select",
+      "id": "gallery_image_position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      
+      ],
+      "default": "right",
+      "label": "Image Position"
+    },
+     
+      {
+      "type": "range",
+      "id": "span",
+      "min": -1,
+      "max": 12,
+      "step": 1,
+      "unit": "sp",
+      "label": "Item Column Span",
+      "info": "This is an advanced option",
+      "default": 1
+       },
+
+       {
+      "type": "range",
+      "id": "rowspan",
+      "min": -1,
+      "max": 5,
+      "step": 1,
+      "unit": "sp",
+      "label": "Item Row Span",
+      "info": "This is an advanced option",
+      "default": 1
+       },
+
+         {
+        "type": "text",
+        "id": "style_class",
+        "label": "Custom Class"
+      }
+
+
+        
+      ]
+    },
+
+
+   {
+      "type": "content",
+      "name": "Text Content",
+      "settings": [
+      
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Text Goes Here",
+          "label": "Title"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h2",
+              "label": "Small"
+            },
+            {
+              "value": "h1",
+              "label": "Medium"
+            },
+            {
+              "value": "h0",
+              "label": "Large"
+            }
+          ],
+          "default": "h2",
+          "label": "Heading Size"
+       },
+       {
+        "type": "html",
+        "id": "optional_text",
+        "label": "Optional Heading"
+      },
+
+       {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Optional Image"
+        },
+       {
+          "type": "text",
+          "id": "caption",
+          "label": "Add Tagline or Subheading"
+        },
+
+       
+
+      
+        
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "subtitle",
+              "label": "Subtitle"
+            },
+            {
+              "value": "caption-with-letter-spacing",
+              "label": "Uppercase"
+            }
+          ],
+          "default": "caption-with-letter-spacing",
+          "label": "Caption Style"
+        },
+        {
+          "type": "select",
+          "id": "text_size",
+          "options": [
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            }
+          ],
+          "default": "medium",
+          "label": "Caption Size"
+        },
+        
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+          "label": "Text"
+        },
+
+     
+        {
+          "type": "text",
+          "id": "buttonLabel",
+          "label": "Button Label"
+        },
+        {
+          "type": "url",
+          "id": "buttonLink",
+          "label": "Button Link"
+        },
+
+     {
+          "type": "select",
+      "id": "content_alignment_vertical",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "stretch",
+          "label": "Full Height"
+        }
+      ],
+      "default": "center",
+      "label": "Vertical Content Alignment"
+    },
+
+    {
+          "type": "select",
+      "id": "text_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Text Alignment"
+    },
+
+    
+
+    
+
+     {
+      "type": "range",
+      "id": "span",
+      "min": -1,
+      "max": 12,
+      "step": 1,
+      "unit": "sp",
+      "label": "Item Column Span",
+      "info": "This is an advanced option",
+      "default": 1
+       },
+
+       {
+      "type": "range",
+      "id": "rowspan",
+      "min": -1,
+      "max": 5,
+      "step": 1,
+      "unit": "sp",
+      "label": "Item Row Span",
+      "info": "This is an advanced option",
+      "default": 1
+       },
+
+      {
+      "type": "range",
+      "id": "text_padding",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "unit": "rem",
+      "label": "Text Padding",
+      "default": 1
+       },
+
+      {
+      "type": "html",
+      "id": "html",
+      "label": "Custom HTML",
+      "info": "This is an advanced option"
+      
+        },
+       
+         {
+        "type": "text",
+        "id": "style_class",
+        "label": "Custom Class"
+      }
+       
+
+      ]
+    },
+
+
+    {
+      "type": "inline_image",
+	  "name": "Decor Image",	
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "inline_image",
+          "label": "Decor Image"
+        },
+
+        {
+      "type": "range",
+      "id": "inline_image_width",
+      "min": 15,
+      "max": 100,
+      "step": 5,
+      "unit": "vw",
+      "label": "Inline Image Width",
+      "default": 20
+       },
+
+       {
+      "type": "select",
+      "id": "decor_position",
+      "options": [
+        {
+          "value": "top-right",
+          "label": "Top Right"
+        },
+        {
+          "value": "top-left",
+          "label": "Top Left"
+        },
+
+        {
+          "value": "bottom-left",
+          "label": "Bottom Left"
+        },
+
+        {
+          "value": "bottom-right",
+          "label": "Bottom Right"
+        }
+      
+      ],
+      "default": "top-left",
+      "label": "Decor Position"
+    },
+
+         {
+          "type": "richtext",
+          "id": "caption",
+      
+          "label": "Caption"
+        },
+
+        {
+        "type": "text",
+        "id": "style_class",
+        "label": "Custom Class"
+      }
+       
+      ]
+    },
+
+
+    {
+      "type": "inline_text",
+	  "name": "Decor Text",	
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "inline_text",
+          "label": "Decor Text"
+        },
+        
+         {
+      "type": "select",
+      "id": "decor_position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+
+        {
+          "value": "left",
+          "label": "Left"
+        },
+
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      
+      ],
+      "default": "top",
+      "label": "Decor Position"
+    },
+
+       {
+        "type": "text",
+        "id": "style_class",
+        "label": "Custom Class"
+      }
+
+       
+      ]
+    },
+
+      {
+      "type": "inline_video",
+	  "name": "Decor Video",	
+      "settings": [
+        {
+          "id": "inline_video",
+          "type": "text",
+          "label": " Decor Video URL",
+          "info": "Video Link"
+        },
+
+       
+
+        {
+      "type": "range",
+      "id": "inline_image_width",
+      "min": 15,
+      "max": 100,
+      "step": 5,
+      "unit": "vw",
+      "label": "Inline Image Width",
+      "default": 30
+       },
+
+        {
+      "type": "select",
+      "id": "decor_position",
+      "options": [
+        {
+          "value": "top-right",
+          "label": "Top Right"
+        },
+        {
+          "value": "top-left",
+          "label": "Top Left"
+        },
+
+        {
+          "value": "bottom-left",
+          "label": "Bottom Left"
+        },
+
+        {
+          "value": "bottom-right",
+          "label": "Bottom Right"
+        }
+      
+      ],
+      "default": "top-left",
+      "label": "Decor Position"
+    },
+
+      {
+          "type": "richtext",
+          "id": "caption",
+         
+          "label": "Caption"
+        },
+
+        {
+        "type": "text",
+        "id": "style_class",
+        "label": "Custom Class"
+      }
+      ]
+    },
+
+    
+      {
+      "type": "inline_accent",
+	  "name": "Text Image Accents",	
+      "settings": [
+        {
+          "id": "image",
+          "type": "image_picker",
+          "label": "Image Accent",
+          "info": "Image Accent"
+        },
+
+         {
+          "id": "keyword",
+          "type": "text",
+          "label": "Keyword"
+        },
+
+       
+
+        {
+      "type": "range",
+      "id": "width",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "em",
+      "label": "Inline Image Width",
+      "default": 4
+       },
+
+
+       {
+      "type": "select",
+      "id": "image_focus",
+      "options": [
+        {
+          "value": "top",
+          "label": "top"
+        },
+        {
+          "value": "center",
+          "label": "center"
+        },
+
+         {
+          "value": "bottom",
+          "label": "bottom"
+        }
+      
+      ],
+      "default": "center",
+      "label": "Image Focus"
+    },
+
+        {
+      "type": "select",
+      "id": "decor_position",
+      "options": [
+        {
+          "value": "inline",
+          "label": "inline"
+        },
+        {
+          "value": "hover",
+          "label": "hover"
+        }
+      
+      ],
+      "default": "inline",
+      "label": "Decor Position"
+    }
+
+
+
+      ]
+    }
+
+
+    
+
+
+   
+
+
+
+  ],
+  "presets": [
+    {
+      "name": "Power Section"
+    }
+  ]
+}
+{% endschema %}
+
+
+
+{% style %}
+
+
+
+.center-video .section-background {
+width:20%;
+padding-bottom:20%;
+left:50%;
+top:50%;
+transform:translate(-50%, -50%);
+border:3px solid;
+}
+
+.background-split--left .section-background {
+ width:50%;
+
+}
+
+.background-third--left .section-background {
+ width:33.3%;
+
+}
+
+.background-split--right .section-background {
+ width:50%;
+ left:50%;
+
+}
+
+.background-third--right .section-background {
+ width:33.36%;
+ left:66.66%;
+
+}
+
+.background-split--center .section-background {
+ width:50%;
+ left:50%;
+ top:50%;
+ transform:translate(-50%, -50%);
+ padding-bottom:50%;
+
+}
+.ss-decor.decor-center {
+ left:50%;
+ top:50%;
+ transform:translate(-50%, -50%);
+}
+
+.sticky {
+ position:sticky !important;
+ top:0;
+  
+}
+
+
+@media screen and (max-width:749px) {
+.hide--mobile {
+ display:none !important; 
+}
+  
+}
+  
+
+.large-headline h2 {
+ font-size:clamp(2rem,5vw,5vw) !important;
+}
+
+.ss-grid__item.image-fill .ss-image-wrapper {
+padding-bottom:0;
+height:100%;
+
+}
+.ss-grid__item.image-fill .ss-image {
+object-fit:cover !important;
+
+}
+
+.ss-grid__item.video-fill .ss-video-block {
+height:100% !important;
+}
+{%endstyle %}
+
+<script>
+
+                
+
+   function decorAccess() {
+
+
+
+  var decors =document.querySelectorAll(".ss-text__content a[title*='decor']");
+
+     if (decors) {   
+        decors.forEach(function (decor, index) {
+
+          decor.setAttribute("tabindex","-1")
+         });
+       
+     }
+
+}
+
+document.addEventListener("DOMContentLoaded", decorAccess);
+
+</script>

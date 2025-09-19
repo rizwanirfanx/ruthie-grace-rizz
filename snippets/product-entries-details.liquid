@@ -1,0 +1,232 @@
+{% if settings.sweeps_switch %}
+{%- liquid
+  assign p = product
+  assign accent1 = accent | default: '#E9A3B0'
+  assign accent2 = '#F6CCD4'
+  assign on_fg   = '#4A4A4A'
+
+  assign local_price_cents = price | default: p.price
+
+  assign base_price = p.metafields.sharedsweeps.priceoverride
+  if base_price == blank
+    assign base_price = local_price_cents | divided_by: 100.0
+  endif
+
+  assign global_mult  = shop.metafields.sharedsweeps.global_multiplier | default: 1
+  assign product_mult = p.metafields.sharedsweeps.multiplier
+  assign mult = global_mult
+  if product_mult != blank and product_mult > global_mult
+    assign mult = product_mult
+  endif
+
+  assign bonus = p.metafields.sharedsweeps.bonusEntries | default: 0
+
+  # === OVERRIDE 5X PARA SALES ===
+  # Por colección (si está disponible)
+  assign SALES_HANDLES = 'sales,sale' | split: ','
+  if collection
+    if collection.handle
+      if SALES_HANDLES contains collection.handle
+        assign mult = 5
+      endif
+    endif
+  endif
+
+  # Por tags (siempre disponible en product)
+  if mult != 5
+    if p.tags and p.tags != blank
+      assign tags_lower = p.tags | join: '||' | downcase | split: '||'
+      for t in tags_lower
+        assign t_stripped = t | strip
+        if t_stripped == 'sale' or t_stripped == 'status_sale'
+          assign mult = 5
+        endif
+      endfor
+    endif
+  endif
+
+  assign entries = base_price | times: mult | floor
+-%}
+
+{%- if base_price > 0 -%}
+<div class="ss-rg-wrap">
+  <div class="ss-rg-badge details"
+       id="ss-entries-badge-{{ section.id }}"
+       data-base-price="{{ base_price }}"
+       data-mult="{{ mult }}"
+       data-bonus="{{ bonus }}"
+       style="--ss-accent1: {{ accent1 }}; --ss-accent2: {{ accent2 }}; --ss-fg: {{ on_fg }};">
+    <span class="ss-rg-text">
+      Earn <span class="ss-rg-value" id="ss-entries-value-{{ section.id }}">—</span> Entries
+      {%- if bonus > 0 -%}<span class="ss-rg-bonus" id="ss-entries-bonus-{{ section.id }}">+ {{ bonus }}</span>{%- endif -%}
+    </span>
+    <span class="ss-rg-mult" aria-label="{{ mult }}x multiplier">{{ mult }}X</span>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var badge   = document.getElementById('ss-entries-badge-{{ section.id }}');
+  var valueEl = document.getElementById('ss-entries-value-{{ section.id }}');
+  var bonusEl = document.getElementById('ss-entries-bonus-{{ section.id }}');
+
+  if (!badge || !valueEl) return;
+
+  var base  = parseFloat(badge.dataset.basePrice) || 0;
+  var mult  = parseFloat(badge.dataset.mult) || 1;
+  var bonus = parseInt(badge.dataset.bonus) || 0;
+
+  // ==== NUEVO: buscar la cantidad dentro del bloque del producto ====
+  function getRoot() {
+    return badge.closest('form[action*="/cart"], section, .product, .product-main, .quick-order') || document;
+  }
+
+  function getQtyEl() {
+    var root = getRoot();
+
+    var el = root.querySelector('.quantity-selector__input');
+    if (el) return el;
+  
+    return root.querySelector('#product-quantity-select')
+        || root.querySelector('select[data-quantity-select]')
+        || root.querySelector('input[name="quantity"]')
+        || root.querySelector('select[name="quantity"]');
+  }
+
+  function parseQtyFromEl(el){
+    if (!el) return 1;
+    var raw = (el.tagName === 'SELECT') ? el.value : el.value;
+    if (typeof raw === 'string' && raw.indexOf('+') !== -1) return 10;
+    var n = parseInt(raw, 10);
+    return (isNaN(n) || n < 1) ? 1 : n;
+  }
+
+  function safeParsePrice(text) {
+    if (!text) return 0;
+    var clean = text.replace(/[^0-9,.\-]/g,'').trim();
+    if (clean.includes(',') && clean.includes('.')) {
+      var lastComma = clean.lastIndexOf(','), lastDot = clean.lastIndexOf('.');
+      clean = (lastComma > lastDot) ? clean.replace(/\./g,'').replace(',', '.') : clean.replace(/,/g,'');
+    } else if (clean.includes(',')) {
+      clean = clean.replace(',', '.');
+    }
+    var n = parseFloat(clean);
+    return isNaN(n) ? 0 : n;
+  }
+
+  function readDomPrice() {
+    var cands = [
+      '#product-price-{{ product.id }}-{{ section.id }}',
+      '.product-price__current-price',
+      '.price__container .price-item--sale',
+      '.price__container .price-item--regular',
+      '.recharge-inner-most-price',
+      '.price .price-item--sale',
+      '.price .price-item--regular',
+      '.price'
+    ];
+    for (var i=0;i<cands.length;i++){
+      var el = document.querySelector(cands[i]);
+      if (el && el.textContent.trim()){
+        var v = safeParsePrice(el.textContent);
+        if (v > 0) return v;
+      }
+    }
+    return 0;
+  }
+
+  function update() {
+    var price = location.search.includes('variant=') ? (readDomPrice() || base) : base;
+    if (!price) return;
+    var qtyEl = getQtyEl();
+    var qty   = parseQtyFromEl(qtyEl);
+    var total = Math.floor(price * mult * qty);
+    valueEl.textContent = String(total);
+    if (bonusEl) bonusEl.textContent = '+ ' + String((bonus || 0) * qty);
+  }
+
+  requestAnimationFrame(update);
+
+  document.addEventListener('input', function(e){
+    if (e.target && e.target.classList && e.target.classList.contains('quantity-selector__input')) {
+      update();
+    }
+  }, { passive:true });
+
+  document.addEventListener('change', function(e){
+    if (
+      (e.target && e.target.classList && e.target.classList.contains('quantity-selector__input')) ||
+      (e.target && (e.target.id === 'product-quantity-select' || e.target.matches('select[data-quantity-select]')))
+    ) {
+      update();
+    }
+  }, { passive:true });
+
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.quantity-selector__button');
+    if (btn) {
+      // deja que el tema actualice el input y luego recalcula
+      requestAnimationFrame(update);
+    }
+  }, { passive:true });
+
+  var priceRoot = document.querySelector('#product-price-{{ product.id }}-{{ section.id }}, .product-price, .price');
+  if (priceRoot && 'MutationObserver' in window){
+    var rafPending = false;
+    var mo = new MutationObserver(function(){
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(function(){ rafPending = false; update(); });
+    });
+    mo.observe(priceRoot, { childList:true, subtree:true });
+  }
+
+  var lastUrl = location.href;
+  setInterval(function(){
+    if (location.href !== lastUrl){
+      lastUrl = location.href;
+      if (lastUrl.includes('variant=')) setTimeout(update, 250);
+    }
+  }, 400);
+});
+</script>
+
+
+<style>
+  .ss-rg-wrap{ display:block; margin:8px 0 0 0; }
+  .ss-rg-badge{
+    --_accent1: var(--ss-accent1, #E9A3B0);
+    --_accent2: var(--ss-accent2, #F6CCD4);
+    --_fg:      var(--ss-fg, #4A4A4A);
+    display:inline-flex; align-items:center; justify-content:space-between;
+    gap:.6rem; padding:.5rem .8rem; border-radius:999px;
+    border:1.5px solid var(--_accent1);
+    background:#fff; color:var(--_fg);
+    font:600 13px/1.2 Inter, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+    box-shadow:0 1px 4px rgba(0,0,0,.05);
+    transition:background .2s ease, box-shadow .2s ease, border-color .2s ease;
+    max-width:100%;
+  }
+  .ss-rg-badge.details{ margin-top:.25rem; }
+  .ss-rg-badge:hover{
+    background:linear-gradient(0deg, rgba(246,204,212,.20), rgba(246,204,212,.20)), #fff;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+  }
+  .ss-rg-text{ display:inline-flex; align-items:center; gap:.35rem; letter-spacing:.2px; white-space:nowrap; }
+  .ss-rg-value{ color:var(--_accent1); font-weight:800; }
+  .ss-rg-bonus{ color:#2e7d32; font-weight:700; margin-left:.2rem; }
+  .ss-rg-mult{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:34px; padding:.28rem .55rem;
+    font-weight:800; font-size:12px; line-height:1;
+    color:#fff; background:var(--_accent1);
+    border:1px solid var(--_accent1); border-radius:999px;
+    box-shadow:0 1px 6px rgba(0,0,0,.08);
+  }
+  @media (max-width:640px){
+    .ss-rg-badge{ padding:.45rem .7rem; font-size:12px; }
+    .ss-rg-mult{ min-width:30px; font-size:11px; padding:.25rem .5rem; }
+  }
+</style>
+{%- endif -%}
+{% endif %}
