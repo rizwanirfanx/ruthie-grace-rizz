@@ -15,8 +15,8 @@
         "slide-1": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Home_8_aaa8fcd7-0bc4-4c01-afa8-26cbc4c6e458.png",
-            "mobile_image": "shopify://shop_images/Home_Banner_6_d8b19e40-0fd7-41f3-a674-cee61a23ca4c.png",
+            "image": "shopify://shop_images/About_1.jpg",
+            "mobile_image": "shopify://shop_images/About_Banner.jpg",
             "subheading": "",
             "title": "A New Ruthie Grace Era + A Greece Getaway.",
             "mobile_text_position": "place-self-center text-center",
