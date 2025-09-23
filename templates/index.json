@@ -22,7 +22,7 @@
             "mobile_text_position": "place-self-center text-center",
             "desktop_text_position": "sm:place-self-center-end sm:text-end",
             "content_max_width": 780,
-            "button_1_text": "shop the sale",
+            "button_1_text": "shop the sale | every sale $ = 5x entries",
             "button_1_link": "shopify://collections/sale-collection",
             "button_1_style": "solid",
             "button_1_background": "#61252d",
