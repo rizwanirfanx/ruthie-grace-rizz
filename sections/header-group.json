@@ -26,7 +26,7 @@
       ],
       "settings": {
         "color_scheme": "scheme-bc3734e8-86d9-4ec5-8f97-1870a3a1b90b",
-        "enable_sticky": true,
+        "enable_sticky": false,
         "autoplay": true,
         "cycle_speed": 5,
         "desktop_font_size": 11,
