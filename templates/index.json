@@ -117,11 +117,11 @@
         "collection-1": {
           "type": "collection",
           "settings": {
-            "collection": "new-arrivals",
+            "collection": "sale-collection",
             "products_count": 8,
             "title": "Latest obsessions",
             "link_url": "",
-            "link_text": "SHOP ALL NEW ARRIVALS"
+            "link_text": "SHOP THE SALE COLLECTION"
           }
         }
       },
