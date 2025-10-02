@@ -17,7 +17,7 @@
         "message-1": {
           "type": "message",
           "settings": {
-            "text": "NEW ARRIVALS EVERY THURSDAY AT 10AM CST | FREE SHIPPING OVER $125"
+            "text": "<a href=\"/collections/new-arrivals\" title=\"New Arrivals\">Today Only | Buy 2 New Arrivals Products and Get Our fall essentials kit for free</a>"
           }
         }
       },
