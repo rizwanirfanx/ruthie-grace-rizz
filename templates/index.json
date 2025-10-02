@@ -68,8 +68,8 @@
         "image_T3kQVz": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Website_Slider_1200_x_800_px_2.jpg",
-            "mobile_image": "shopify://shop_images/Mobile_Slider_900_x_900_px.jpg",
+            "image": "shopify://shop_images/Website_Hero_Template_1200_x_800_px_5.jpg",
+            "mobile_image": "shopify://shop_images/Mobile_Hero_Template_900_x_900_px_2.jpg",
             "subheading": "",
             "title": "",
             "mobile_text_position": "place-self-center text-center",
