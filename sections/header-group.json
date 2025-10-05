@@ -17,7 +17,7 @@
         "message-1": {
           "type": "message",
           "settings": {
-            "text": "<a href=\"/collections/footwear\" title=\"Shoes\">shoe sale! | Every pair $30 & under</a>"
+            "text": "<a href=\"/collections/footwear\" title=\"Shoes\">shoe sale! | Select pairs $30 & under</a>"
           }
         }
       },
