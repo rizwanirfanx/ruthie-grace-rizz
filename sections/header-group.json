@@ -17,7 +17,7 @@
         "message-1": {
           "type": "message",
           "settings": {
-            "text": "This Week's Drop: The Fall Edit is LIVE - Shop Now Before It's Gone!"
+            "text": "<a href=\"/collections/this-weeks-drop\" title=\"This Week's Drop\">This Week's Drop: The Fall Edit is LIVE - Shop Now Before It's Gone!</a>"
           }
         }
       },
