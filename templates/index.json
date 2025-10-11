@@ -176,15 +176,15 @@
         "image_T7RXX8": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Website_Hero_Template_1200_x_800_px_2.jpg",
-            "mobile_image": "shopify://shop_images/Mobile_Hero_Template_900_x_900_px_1.jpg",
+            "image": "shopify://shop_images/Website_Hero_Template_1200_x_800_px_1.png",
+            "mobile_image": "shopify://shop_images/Mobile_Hero_Template_900_x_900_px_1.png",
             "subheading": "",
             "title": "",
             "mobile_text_position": "place-self-center text-center",
             "desktop_text_position": "sm:place-self-center sm:text-center",
             "content_max_width": 780,
             "button_1_text": "",
-            "button_1_link": "shopify://collections/new-arrivals",
+            "button_1_link": "shopify://collections/50-under-collection",
             "button_1_style": "solid",
             "button_1_background": "#ffffff",
             "button_1_text_color": "#000000",
